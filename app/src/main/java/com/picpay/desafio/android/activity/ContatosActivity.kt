@@ -22,7 +22,7 @@ class ContatosActivity : AppCompatActivity() {
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.user_list_progress_bar) }
-    private val adapter by lazy {  UserListAdapter() }
+    private val adapter by lazy { UserListAdapter() }
     private val viewModel by lazy {
         ViewModelProvider(
             this, ContatosViewModel.ContatosViewModelFactory(
@@ -30,8 +30,6 @@ class ContatosActivity : AppCompatActivity() {
             )
         )[ContatosViewModel::class.java]
     }
-
-    private lateinit var state: Parcelable
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,16 +75,4 @@ class ContatosActivity : AppCompatActivity() {
         recyclerView.visibility = View.GONE
         Toast.makeText(this@ContatosActivity, message, Toast.LENGTH_SHORT).show()
     }
-
-    /*override fun onPause() {
-        super.onPause()
-        recyclerView.layoutManager?.onSaveInstanceState()?.let {
-            state = it
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        recyclerView.layoutManager?.onRestoreInstanceState(state)
-    }*/
 }
