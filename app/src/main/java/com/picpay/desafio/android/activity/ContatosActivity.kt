@@ -9,18 +9,19 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.picpay.desafio.android.OnLoadingState
-import com.picpay.desafio.android.OnPicPayServiceResponse
+import com.picpay.desafio.android.states.OnLoadingState
+import com.picpay.desafio.android.states.OnPicPayServiceResponse
 import com.picpay.desafio.android.R
 import com.picpay.desafio.android.activity.viewmodel.ContatosViewModel
 import com.picpay.desafio.android.adapter.UserListAdapter
 import com.picpay.desafio.android.model.User
-import com.picpay.desafio.repository.ContatosRespository
+import com.picpay.desafio.android.repository.ContatosRespository
 
 class ContatosActivity : AppCompatActivity(R.layout.contatos_activity) {
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.user_list_progress_bar) }
+    private val adapter by lazy {  UserListAdapter() }
     private val viewModel by lazy {
         ViewModelProvider(
             this, ContatosViewModel.ContatosViewModelFactory(
@@ -28,7 +29,6 @@ class ContatosActivity : AppCompatActivity(R.layout.contatos_activity) {
             )
         )[ContatosViewModel::class.java]
     }
-    private lateinit var adapter: UserListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -64,7 +64,6 @@ class ContatosActivity : AppCompatActivity(R.layout.contatos_activity) {
     }
 
     private fun onSuccessfulPicpayServiceResponse(users: List<User>) {
-        adapter = UserListAdapter()
         adapter.users = users
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -75,27 +74,4 @@ class ContatosActivity : AppCompatActivity(R.layout.contatos_activity) {
         recyclerView.visibility = View.GONE
         Toast.makeText(this@ContatosActivity, message, Toast.LENGTH_SHORT).show()
     }
-/*
-    private fun setContacts() {
-
-        progressBar.visibility = View.VISIBLE
-        service.getUsers()
-            .enqueue(object : Callback<List<User>> {
-                override fun onFailure(call: Call<List<User>>, t: Throwable) {
-                    val message = getString(R.string.error)
-
-                    progressBar.visibility = View.GONE
-                    recyclerView.visibility = View.GONE
-
-                    Toast.makeText(this@ContatosActivity, message, Toast.LENGTH_SHORT)
-                        .show()
-                }
-
-                override fun onResponse(call: Call<List<User>>, response: Response<List<User>>) {
-                    progressBar.visibility = View.GONE
-
-                    adapter.users = response.body()!!
-                }
-            })
-    }*/
 }

@@ -1,14 +1,14 @@
 package com.picpay.desafio.android.activity.viewmodel
 
 import androidx.lifecycle.*
-import com.picpay.desafio.android.OnLoadingState
-import com.picpay.desafio.android.OnPicPayServiceResponse
+import com.picpay.desafio.android.states.OnLoadingState
+import com.picpay.desafio.android.states.OnPicPayServiceResponse
 import com.picpay.desafio.android.model.User
-import com.picpay.desafio.repository.ContatosRespository
+import com.picpay.desafio.android.repository.ContatosRespository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class ContatosViewModel(val repository: ContatosRespository): ViewModel() {
+class ContatosViewModel(private val repository: ContatosRespository): ViewModel() {
 
     private val picPayServiceResponse: MutableLiveData<OnPicPayServiceResponse> = MutableLiveData()
     val onPicPayServiceResponse: LiveData<OnPicPayServiceResponse> = picPayServiceResponse
@@ -34,7 +34,7 @@ class ContatosViewModel(val repository: ContatosRespository): ViewModel() {
         }
     }
 
-    class ContatosViewModelFactory(val repository: ContatosRespository) : ViewModelProvider.Factory {
+    class ContatosViewModelFactory(private val repository: ContatosRespository) : ViewModelProvider.Factory {
         override fun <T : ViewModel?> create(modelClass: Class<T>): T {
             return ContatosViewModel(repository) as T
         }
