@@ -17,7 +17,7 @@ import com.picpay.desafio.android.adapter.UserListAdapter
 import com.picpay.desafio.android.model.User
 import com.picpay.desafio.android.repository.ContatosRespository
 
-class ContatosActivity : AppCompatActivity(R.layout.contatos_activity) {
+class ContatosActivity : AppCompatActivity() {
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.user_list_progress_bar) }
