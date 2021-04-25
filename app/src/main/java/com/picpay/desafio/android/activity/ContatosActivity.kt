@@ -1,5 +1,6 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.activity
 
+import android.os.Bundle
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -8,6 +9,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.picpay.desafio.android.api.PicPayService
+import com.picpay.desafio.android.R
+import com.picpay.desafio.android.model.User
+import com.picpay.desafio.android.adapter.UserListAdapter
 import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
@@ -15,7 +20,9 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MainActivity : AppCompatActivity(R.layout.activity_main) {
+class ContatosActivity : AppCompatActivity(R.layout.contatos_activity) {
+
+    //private lateinit var bindind: ContatosActivityBinding
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var progressBar: ProgressBar
@@ -42,12 +49,19 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         retrofit.create(PicPayService::class.java)
     }
 
-    override fun onResume() {
-        super.onResume()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.contatos_activity)
+        initViews()
+    }
 
+    private fun initViews() {
         recyclerView = findViewById(R.id.recyclerView)
         progressBar = findViewById(R.id.user_list_progress_bar)
+        setContacts()
+    }
 
+    private fun setContacts() {
         adapter = UserListAdapter()
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -61,7 +75,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
                     progressBar.visibility = View.GONE
                     recyclerView.visibility = View.GONE
 
-                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT)
+                    Toast.makeText(this@ContatosActivity, message, Toast.LENGTH_SHORT)
                         .show()
                 }
 
