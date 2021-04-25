@@ -1,6 +1,7 @@
 package com.picpay.desafio.android.activity
 
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -30,11 +31,13 @@ class ContatosActivity : AppCompatActivity() {
         )[ContatosViewModel::class.java]
     }
 
+    private lateinit var state: Parcelable
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.contatos_activity)
 
-        viewModel.fetchPicPayUsers()
+        if (savedInstanceState == null) viewModel.fetchPicPayUsers()
         subscribeUI()
     }
 
@@ -74,4 +77,16 @@ class ContatosActivity : AppCompatActivity() {
         recyclerView.visibility = View.GONE
         Toast.makeText(this@ContatosActivity, message, Toast.LENGTH_SHORT).show()
     }
+
+    /*override fun onPause() {
+        super.onPause()
+        recyclerView.layoutManager?.onSaveInstanceState()?.let {
+            state = it
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        recyclerView.layoutManager?.onRestoreInstanceState(state)
+    }*/
 }
