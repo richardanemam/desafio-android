@@ -12,20 +12,23 @@ import androidx.recyclerview.widget.RecyclerView
 import com.picpay.desafio.android.presentation.viewstates.OnLoadingState
 import com.picpay.desafio.android.presentation.viewstates.OnPicPayServiceResponse
 import com.picpay.desafio.android.R
+import com.picpay.desafio.android.data.db.PicpayUserDatabase
 import com.picpay.desafio.android.presentation.activity.viewmodel.ContatosViewModel
 import com.picpay.desafio.android.presentation.adapter.UserListAdapter
 import com.picpay.desafio.android.domain.model.User
-import com.picpay.desafio.android.data.repository.ContatosRespository
+import com.picpay.desafio.android.data.repository.ContatosRepository
 
 class ContatosActivity : AppCompatActivity() {
 
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.user_list_progress_bar) }
     private val adapter by lazy { UserListAdapter() }
+    private val userDao by lazy { PicpayUserDatabase.getDatabase(this).picpayUserDao()  }
     private val viewModel by lazy {
         ViewModelProvider(
             this, ContatosViewModel.ContatosViewModelFactory(
-                ContatosRespository()
+                ContatosRepository(),
+                userDao
             )
         )[ContatosViewModel::class.java]
     }

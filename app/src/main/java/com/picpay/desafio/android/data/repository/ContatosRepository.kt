@@ -11,7 +11,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class ContatosRespository {
+class ContatosRepository {
 
     companion object {
         private const val URL = "http://careers.picpay.com/tests/mobdev/"
@@ -40,9 +40,5 @@ class ContatosRespository {
         return withContext(Dispatchers.Default) {
             service.getUsers()
         }
-    }
-
-    suspend fun getAndCacheUsers() {
-
     }
 }
