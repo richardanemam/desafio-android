@@ -1,6 +1,6 @@
 package com.picpay.desafio.android.domain.usecase
 
-import com.picpay.desafio.android.data.db.PicpayUserRepository
+import com.picpay.desafio.android.data.db.PicpayUserCrud
 import com.picpay.desafio.android.data.db.dao.PicpayUserDao
 import com.picpay.desafio.android.data.db.toPicpayUserEntity
 import com.picpay.desafio.android.data.db.toUser
@@ -10,9 +10,9 @@ import com.picpay.desafio.android.domain.model.User
 class ContatosRepositoryUseCase(
     private val picpayUserDao: PicpayUserDao,
     private val repository: ContatosRepository
-) : PicpayUserRepository {
+) : PicpayUserCrud {
 
-    override suspend fun set(): Boolean {
+    override suspend fun create(): Boolean {
         val response = repository.getUsers()
         if (response.isSuccessful) {
             cacheUserData(response.body())
@@ -21,8 +21,12 @@ class ContatosRepositoryUseCase(
         return false
     }
 
-    override suspend fun get(): List<User> {
+    override suspend fun read(): List<User> {
         return getCachedData()
+    }
+
+    override fun update() {
+        TODO("Not yet implemented")
     }
 
     override fun delete() {

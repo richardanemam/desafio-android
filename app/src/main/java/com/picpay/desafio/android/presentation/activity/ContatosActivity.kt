@@ -50,9 +50,15 @@ class ContatosActivity : AppCompatActivity() {
         viewModel.onPicPayServiceResponse.observe(this, Observer {
             when (it) {
                 is OnPicPayServiceResponse.OnSuccess -> it.users?.let { users ->
-                    onSuccessfulPicpayServiceResponse(users)
+                    setPicpayUsers(users)
                 }
-                OnPicPayServiceResponse.OnFailure -> onFailurePicpayServiceResponse()
+                is OnPicPayServiceResponse.OnFailure -> {
+                    if (!it.users.isNullOrEmpty()) {
+                        setPicpayUsers(it.users)
+                    } else {
+                        onFailurePicpayServiceResponse()
+                    }
+                }
             }
         })
     }
@@ -66,7 +72,7 @@ class ContatosActivity : AppCompatActivity() {
         })
     }
 
-    private fun onSuccessfulPicpayServiceResponse(users: List<User>) {
+    private fun setPicpayUsers(users: List<User>) {
         adapter.users = users
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(this)

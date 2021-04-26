@@ -4,7 +4,7 @@ import com.picpay.desafio.android.domain.model.User
 
 sealed class OnPicPayServiceResponse {
     data class OnSuccess(val users: List<User>?): OnPicPayServiceResponse()
-    object OnFailure: OnPicPayServiceResponse()
+    data class OnFailure(val users: List<User>?): OnPicPayServiceResponse()
 }
 
 sealed class OnLoadingState {
