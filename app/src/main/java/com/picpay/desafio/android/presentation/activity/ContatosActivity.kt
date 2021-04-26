@@ -1,7 +1,6 @@
-package com.picpay.desafio.android.activity
+package com.picpay.desafio.android.presentation.activity
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -10,13 +9,13 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.picpay.desafio.android.states.OnLoadingState
-import com.picpay.desafio.android.states.OnPicPayServiceResponse
+import com.picpay.desafio.android.presentation.viewstates.OnLoadingState
+import com.picpay.desafio.android.presentation.viewstates.OnPicPayServiceResponse
 import com.picpay.desafio.android.R
-import com.picpay.desafio.android.activity.viewmodel.ContatosViewModel
-import com.picpay.desafio.android.adapter.UserListAdapter
-import com.picpay.desafio.android.model.User
-import com.picpay.desafio.android.repository.ContatosRespository
+import com.picpay.desafio.android.presentation.activity.viewmodel.ContatosViewModel
+import com.picpay.desafio.android.presentation.adapter.UserListAdapter
+import com.picpay.desafio.android.domain.model.User
+import com.picpay.desafio.android.data.repository.ContatosRespository
 
 class ContatosActivity : AppCompatActivity() {
 

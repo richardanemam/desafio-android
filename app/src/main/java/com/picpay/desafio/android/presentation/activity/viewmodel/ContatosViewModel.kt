@@ -1,10 +1,10 @@
-package com.picpay.desafio.android.activity.viewmodel
+package com.picpay.desafio.android.presentation.activity.viewmodel
 
 import androidx.lifecycle.*
-import com.picpay.desafio.android.states.OnLoadingState
-import com.picpay.desafio.android.states.OnPicPayServiceResponse
-import com.picpay.desafio.android.model.User
-import com.picpay.desafio.android.repository.ContatosRespository
+import com.picpay.desafio.android.presentation.viewstates.OnLoadingState
+import com.picpay.desafio.android.presentation.viewstates.OnPicPayServiceResponse
+import com.picpay.desafio.android.domain.model.User
+import com.picpay.desafio.android.data.repository.ContatosRespository
 import kotlinx.coroutines.launch
 import retrofit2.Response
 

@@ -1,9 +1,9 @@
-package com.picpay.desafio.android.repository
+package com.picpay.desafio.android.data.repository
 
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.picpay.desafio.android.api.PicPayService
-import com.picpay.desafio.android.model.User
+import com.picpay.desafio.android.data.api.PicPayService
+import com.picpay.desafio.android.domain.model.User
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
@@ -40,5 +40,9 @@ class ContatosRespository {
         return withContext(Dispatchers.Default) {
             service.getUsers()
         }
+    }
+
+    suspend fun getAndCacheUsers() {
+
     }
 }

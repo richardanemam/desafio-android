@@ -1,6 +1,6 @@
-package com.picpay.desafio.android.states
+package com.picpay.desafio.android.presentation.viewstates
 
-import com.picpay.desafio.android.model.User
+import com.picpay.desafio.android.domain.model.User
 
 sealed class OnPicPayServiceResponse {
     data class OnSuccess(val users: List<User>?): OnPicPayServiceResponse()
