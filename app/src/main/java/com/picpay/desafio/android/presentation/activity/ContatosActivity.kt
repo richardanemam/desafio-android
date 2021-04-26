@@ -23,7 +23,7 @@ class ContatosActivity : AppCompatActivity() {
     private val recyclerView by lazy { findViewById<RecyclerView>(R.id.recyclerView) }
     private val progressBar by lazy { findViewById<ProgressBar>(R.id.user_list_progress_bar) }
     private val adapter by lazy { UserListAdapter() }
-    private val userDao by lazy { PicpayUserDatabase.getDatabase(this).picpayUserDao()  }
+    private val userDao by lazy { PicpayUserDatabase.getDatabase(this).picpayUserDao() }
     private val viewModel by lazy {
         ViewModelProvider(
             this, ContatosViewModel.ContatosViewModelFactory(
@@ -49,15 +49,11 @@ class ContatosActivity : AppCompatActivity() {
     private fun subscribePicPayUsers() {
         viewModel.onPicPayServiceResponse.observe(this, Observer {
             when (it) {
-                is OnPicPayServiceResponse.OnSuccess -> it.users?.let { users ->
+                is OnPicPayServiceResponse.OnServiceResponse -> it.users?.let { users ->
                     setPicpayUsers(users)
                 }
-                is OnPicPayServiceResponse.OnFailure -> {
-                    if (!it.users.isNullOrEmpty()) {
-                        setPicpayUsers(it.users)
-                    } else {
-                        onFailurePicpayServiceResponse()
-                    }
+                is OnPicPayServiceResponse.OnCacheUnavailable -> {
+                    onCacheUnavailable()
                 }
             }
         })
@@ -78,7 +74,7 @@ class ContatosActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
     }
 
-    private fun onFailurePicpayServiceResponse() {
+    private fun onCacheUnavailable() {
         val message = getString(R.string.error)
         recyclerView.visibility = View.GONE
         Toast.makeText(this@ContatosActivity, message, Toast.LENGTH_SHORT).show()

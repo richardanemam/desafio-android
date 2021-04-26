@@ -3,8 +3,8 @@ package com.picpay.desafio.android.presentation.viewstates
 import com.picpay.desafio.android.domain.model.User
 
 sealed class OnPicPayServiceResponse {
-    data class OnSuccess(val users: List<User>?): OnPicPayServiceResponse()
-    data class OnFailure(val users: List<User>?): OnPicPayServiceResponse()
+    data class OnServiceResponse(val users: List<User>?): OnPicPayServiceResponse()
+    object OnCacheUnavailable: OnPicPayServiceResponse()
 }
 
 sealed class OnLoadingState {

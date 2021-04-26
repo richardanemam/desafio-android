@@ -12,13 +12,9 @@ class ContatosRepositoryUseCase(
     private val repository: ContatosRepository
 ) : PicpayUserCrud {
 
-    override suspend fun create(): Boolean {
+    override suspend fun create() {
         val response = repository.getUsers()
-        if (response.isSuccessful) {
-            cacheUserData(response.body())
-            return true
-        }
-        return false
+        cacheUserData(response.body())
     }
 
     override suspend fun read(): List<User> {
