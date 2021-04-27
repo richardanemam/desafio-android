@@ -1,17 +1,9 @@
 package com.picpay.desafio.android
 
-import androidx.lifecycle.Lifecycle
-import androidx.test.core.app.launchActivity
-import androidx.test.espresso.Espresso.onView
-import androidx.test.espresso.assertion.ViewAssertions.matches
-import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
-import androidx.test.espresso.matcher.ViewMatchers.withText
-import androidx.test.platform.app.InstrumentationRegistry
-import com.picpay.desafio.android.presentation.activity.ContatosActivity
-import okhttp3.mockwebserver.Dispatcher
-import okhttp3.mockwebserver.MockResponse
+import com.picpay.desafio.android.ContatosActivityRobotConstants.CONTATOS_TITLE
+import com.picpay.desafio.android.ContatosActivityRobotConstants.NAME
+import com.picpay.desafio.android.ContatosActivityRobotConstants.USER_NAME
 import okhttp3.mockwebserver.MockWebServer
-import okhttp3.mockwebserver.RecordedRequest
 import org.junit.Test
 
 
@@ -19,51 +11,32 @@ class ContatosActivityTest {
 
     private val server = MockWebServer()
 
-    private val context = InstrumentationRegistry.getInstrumentation().targetContext
+    fun prepare(func: ContatosActivityRobotPrepare.() -> Unit) = ContatosActivityRobotPrepare(server).apply(func)
+    fun validate(func: ContatosActivityRobotValidate.() -> Unit) = ContatosActivityRobotValidate().apply(func)
 
     @Test
-    fun shouldDisplayTitle() {
-        launchActivity<ContatosActivity>().apply {
-            val expectedTitle = context.getString(R.string.title)
-
-            moveToState(Lifecycle.State.RESUMED)
-
-            onView(withText(expectedTitle)).check(matches(isDisplayed()))
+    fun whenLauchingActivity_ItShouldDisplayTitle() {
+        prepare {
+            launchActivity()
+        }
+        validate {
+            validateTitle(CONTATOS_TITLE)
         }
     }
 
+    // TODO("validate if list displays items returned by server")
     @Test
-    fun shouldDisplayListItem() {
-        server.dispatcher = object : Dispatcher() {
-            override fun dispatch(request: RecordedRequest): MockResponse {
-                return when (request.path) {
-                    "/users" -> successResponse
-                    else -> errorResponse
-                }
-            }
+    fun whenLauchingActivity_ItShouldDisplayListItem() {
+        prepare {
+            setDispatcher()
+            startServer()
+            launchActivity()
+            closeServer()
         }
-
-        server.start(serverPort)
-
-        launchActivity<ContatosActivity>().apply {
-            // TODO("validate if list displays items returned by server")
+        validate {
+            validateUserName(USER_NAME)
+            validateName(NAME)
+            validateProfileImg()
         }
-
-        server.close()
-    }
-
-    companion object {
-        private const val serverPort = 8080
-
-        private val successResponse by lazy {
-            val body =
-                "[{\"id\":1001,\"name\":\"Eduardo Santos\",\"img\":\"https://randomuser.me/api/portraits/men/9.jpg\",\"username\":\"@eduardo.santos\"}]"
-
-            MockResponse()
-                .setResponseCode(200)
-                .setBody(body)
-        }
-
-        private val errorResponse by lazy { MockResponse().setResponseCode(404) }
     }
 }
