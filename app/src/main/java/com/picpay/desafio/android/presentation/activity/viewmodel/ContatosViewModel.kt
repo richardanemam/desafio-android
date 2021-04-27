@@ -41,13 +41,4 @@ class ContatosViewModel(
             }
         }
     }
-
-    class ContatosViewModelFactory(
-        private val repository: ContatosRepository,
-        private val picpayUserDao: PicpayUserDao
-    ) : ViewModelProvider.Factory {
-        override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-            return ContatosViewModel(repository, picpayUserDao) as T
-        }
-    }
 }
