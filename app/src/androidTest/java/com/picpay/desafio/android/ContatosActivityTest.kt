@@ -11,8 +11,8 @@ class ContatosActivityTest {
 
     private val server = MockWebServer()
 
-    fun prepare(func: ContatosActivityRobotPrepare.() -> Unit) = ContatosActivityRobotPrepare(server).apply(func)
-    fun validate(func: ContatosActivityRobotValidate.() -> Unit) = ContatosActivityRobotValidate().apply(func)
+    private fun prepare(func: ContatosActivityRobotPrepare.() -> Unit) = ContatosActivityRobotPrepare(server).apply(func)
+    private fun validate(func: ContatosActivityRobotValidate.() -> Unit) = ContatosActivityRobotValidate().apply(func)
 
     @Test
     fun whenLauchingActivity_ItShouldDisplayTitle() {

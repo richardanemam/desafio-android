@@ -5,6 +5,7 @@ import com.picpay.desafio.android.data.db.dao.PicpayUserDao
 import com.picpay.desafio.android.presentation.viewstates.OnLoadingState
 import com.picpay.desafio.android.presentation.viewstates.OnPicPayServiceResponse
 import com.picpay.desafio.android.data.repository.ContatosRepository
+import com.picpay.desafio.android.domain.model.User
 import com.picpay.desafio.android.domain.usecase.ContatosRepositoryUseCase
 import kotlinx.coroutines.launch
 
@@ -25,20 +26,17 @@ class ContatosViewModel(
         viewModelScope.launch {
             loadingState.postValue(OnLoadingState.Show)
             usecase.create()
-            setPicPayUsersState()
+            setPicPayUsersState(usecase.read())
         }.invokeOnCompletion {
             loadingState.postValue(OnLoadingState.Hide)
         }
     }
 
-    private fun setPicPayUsersState() {
-        viewModelScope.launch {
-            val cache = usecase.read()
-            if (!cache.isNullOrEmpty()) {
-                picPayServiceResponse.postValue(OnPicPayServiceResponse.OnServiceResponse(cache))
-            } else {
-                picPayServiceResponse.postValue(OnPicPayServiceResponse.OnCacheUnavailable)
-            }
+    private fun setPicPayUsersState(cache: List<User>) {
+        if (!cache.isNullOrEmpty()) {
+            picPayServiceResponse.postValue(OnPicPayServiceResponse.OnServiceResponse(cache))
+        } else {
+            picPayServiceResponse.postValue(OnPicPayServiceResponse.OnCacheUnavailable)
         }
     }
 }
