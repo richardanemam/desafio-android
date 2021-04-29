@@ -1,4 +1,4 @@
-package com.picpay.desafio.android
+package com.picpay.desafio.android.common
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
